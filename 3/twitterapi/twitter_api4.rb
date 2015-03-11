@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'oauth'
 require 'json'
+require './keys'
 
 # Now you will fetch /1.1/statuses/user_timeline.json,
 # returns a list of public Tweets from the specified
@@ -14,10 +15,6 @@ query   = URI.encode_www_form(
 )
 address = URI("#{baseurl}#{path}?#{query}")
 request = Net::HTTP::Get.new address.request_uri
-twitter_api_key = "F3IDCTfrPYR8aupves2KUU1sj"
-twitter_api_secret = "qaqRVc9eeCfESFSesDkrlEDmpYtOQZDXd7jGbwjdIH1e2OiJO5"
-twitter_access_token = "141585159-dQHdNsPq4fgYPsuH2mJ0xezKN9rCQQHdpGUN3hYx"
-twitter_access_secret = "1FNtCn7AxkcsFPd2KeaETPKpoZQYd3WeINuOpJbqPvdPM"
 
 # Print data about a list of Tweets
 def print_timeline(tweets)
@@ -35,8 +32,8 @@ http.use_ssl     = true
 http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
 # Set up OAuth
-consumer_key = OAuth::Consumer.new(twitter_api_key, twitter_api_secret)
-access_token = OAuth::Token.new(twitter_access_token, twitter_access_secret)
+consumer_key = OAuth::Consumer.new($twitter_api_key, $twitter_api_secret)
+access_token = OAuth::Token.new($twitter_access_token, $twitter_access_secret)
 
 # Issue the request.
 request.oauth! http, consumer_key, access_token
